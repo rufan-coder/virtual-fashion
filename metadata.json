@@ -1,0 +1,5 @@
+{
+  "name": "Virtual Fashion",
+  "description": "An application that uses the Gemini API (Nano Banana) to virtually fit clothing onto a person's photo. Users can upload a photo of a person and a photo of a piece of clothing to see the person wearing that item.",
+  "requestFramePermissions": []
+}
