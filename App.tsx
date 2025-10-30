@@ -63,19 +63,17 @@ const App: React.FC = () => {
     }
   }, [modelImage, topImage, bottomImage]);
   
-  const handleReset = useCallback(() => {
-    // Keep the uploaded images, only reset the result state.
-    setGeneratedImage(null);
-    setError(null);
-    setIsLoading(false);
-  }, []);
+  const handleRetry = useCallback(() => {
+    handleTryOn();
+  }, [handleTryOn]);
 
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col text-gray-800">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
+      <main className="flex-grow container mx-auto p-4 sm:py-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 gap-4 md:gap-8 items-start">
+          {/* --- INPUT COLUMN --- */}
+          <div className="flex flex-col gap-4 md:gap-8">
             <ImageUploader 
               id="model-image"
               title="인물 사진"
@@ -83,38 +81,44 @@ const App: React.FC = () => {
               onImageUpload={setModelImage}
               uploadedImage={modelImage}
             />
-            <ImageUploader 
-              id="top-image"
-              title="상의"
-              description="착용할 상의 이미지를 업로드하세요."
-              onImageUpload={setTopImage}
-              uploadedImage={topImage}
-            />
-             <ImageUploader 
-              id="bottom-image"
-              title="하의"
-              description="착용할 하의 이미지를 업로드하세요."
-              onImageUpload={setBottomImage}
-              uploadedImage={bottomImage}
-            />
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
+              <ImageUploader 
+                id="top-image"
+                title="상의"
+                description="착용할 상의 이미지를 업로드하세요."
+                onImageUpload={setTopImage}
+                uploadedImage={topImage}
+              />
+              <ImageUploader 
+                id="bottom-image"
+                title="하의"
+                description="착용할 하의 이미지를 업로드하세요."
+                onImageUpload={setBottomImage}
+                uploadedImage={bottomImage}
+              />
+            </div>
+
+            <div className="text-center pt-2 md:pt-4">
+              <button
+                onClick={handleTryOn}
+                disabled={!modelImage || (!topImage && !bottomImage) || isLoading}
+                className="bg-indigo-600 text-white font-bold py-3 px-8 rounded-full hover:bg-indigo-700 disabled:bg-indigo-300 transition-all duration-300 shadow-lg text-lg w-full sm:w-auto"
+              >
+                {isLoading ? '생성 중...' : '가상 피팅'}
+              </button>
+            </div>
           </div>
 
-          <div className="text-center mb-8">
-            <button
-              onClick={handleTryOn}
-              disabled={!modelImage || (!topImage && !bottomImage) || isLoading}
-              className="bg-indigo-600 text-white font-bold py-3 px-8 rounded-full hover:bg-indigo-700 disabled:bg-indigo-300 transition-all duration-300 shadow-lg text-lg"
-            >
-              {isLoading ? '이미지 생성 중...' : '가상 피팅 시작하기'}
-            </button>
+          {/* --- OUTPUT COLUMN --- */}
+          <div className="sticky top-8">
+            <ResultDisplay
+              isLoading={isLoading}
+              generatedImage={generatedImage}
+              error={error}
+              onRetry={handleRetry}
+            />
           </div>
-
-          <ResultDisplay
-            isLoading={isLoading}
-            generatedImage={generatedImage}
-            error={error}
-            onReset={handleReset}
-          />
         </div>
       </main>
       <Footer />

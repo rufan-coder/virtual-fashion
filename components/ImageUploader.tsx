@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState, useRef } from 'react';
 
 interface ImageUploaderProps {
@@ -70,7 +69,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ id, title, descrip
            onDragOver={handleDragOver}
            onDragEnter={handleDragEnter}
            onDragLeave={handleDragLeave}
-           className={`w-full h-64 border-2 border-dashed rounded-xl flex flex-col justify-center items-center cursor-pointer transition-colors duration-200 ${isDragging ? 'border-indigo-600 bg-indigo-50' : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'}`}
+           className={`w-full h-full border-2 border-dashed rounded-xl flex flex-col justify-center items-center cursor-pointer transition-colors duration-200 ${isDragging ? 'border-indigo-600 bg-indigo-50' : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'}`}
          >
            <UploadIcon className="w-10 h-10 text-gray-400 mb-3" />
            <span className="text-gray-600 font-medium">드래그 앤 드롭 또는 클릭</span>
@@ -85,7 +84,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ id, title, descrip
            />
          </label>
         ) : (
-          <div className="w-full h-64 relative group">
+          <div className="w-full h-full relative group">
             <img 
               src={URL.createObjectURL(uploadedImage)} 
               alt="Uploaded preview" 
